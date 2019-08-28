@@ -1,21 +1,25 @@
 const express = require("express");
 const cartRoutes = express.Router();
-const cart = require("./cart");
+const pool = require("../connection/connection");
 
-cartRoutes.get("/cart-items", (req, res) => {
-  res.send(cart);
-});
+function selectAllItems(req, res) {
+  pool.query("select * from ShoppingCart").then(result => {
+    res.send(result.rows);
+  });
+}
 
-cartRoutes.post("/cart-items", (req, res) => {
-  console.log(req.body);
-});
+cartRoutes.get("/cart-items", selectAllItems);
 
-cartRoutes.put("/cart-items/:id", (req, res) => {
-  console.log(req.params.id, req.body);
-});
+// cartRoutes.post("/cart-items", (req, res) => {
+//   console.log(req.body);
+// });
 
-cartRoutes.delete("/cart-items/:id", (req, res) => {
-  console.log(req.params.id);
-});
+// cartRoutes.put("/cart-items/:id", (req, res) => {
+//   console.log(req.params.id, req.body);
+// });
+
+// cartRoutes.delete("/cart-items/:id", (req, res) => {
+//   console.log(req.params.id);
+// });
 
 module.exports = cartRoutes;
