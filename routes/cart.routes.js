@@ -23,10 +23,10 @@ cartRoutes.post("/cart-items", (req, res) => {
 
 cartRoutes.put("/cart-items/:id", (req, res) => {
   pool
-    .query(
-      "update ShoppingCart set product=$1::text, price=$2::int, quantity=$3::int where id=$4::int",
-      [req.body.product, req.body.price, req.body.quantity, req.params.id]
-    )
+    .query("update ShoppingCart set quantity=$1::int where id=$2::int", [
+      req.body.quantity,
+      req.params.id
+    ])
     .then(() => {
       selectAllItems(req, res);
     });
